@@ -1,4 +1,4 @@
-import RuntimeError from "./runtime-error";
+import RuntimeError from "./errors/runtime-error";
 import Token from "./token";
 
 export default class Environment {
