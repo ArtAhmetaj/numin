@@ -2,7 +2,7 @@ import Token from "../token";
 import Expression  from "./expression";
 import expressionVisitor from "./expression-visitor";
 
-export default class Asign extends Expression{
+export default class Assign extends Expression{
 
     readonly token:Token;
     readonly value:Expression
