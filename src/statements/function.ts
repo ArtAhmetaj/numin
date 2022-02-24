@@ -14,7 +14,7 @@ export default class Function extends Statement{
         this.body = body;
 
     }
-    protected accept<T>(visitor: statementVisitor<T>): T {
+     accept<T>(visitor: statementVisitor<T>): T {
      return visitor.visitFunctionStatement(this);
     }
 
