@@ -13,7 +13,7 @@ export class ReturnStatement extends Statement{
         this.keyword = keyword;
         this.value = value;
     }
-    protected accept<T>(visitor: statementVisitor<T>): T {
+    accept<T>(visitor: statementVisitor<T>): T {
         return visitor.visitReturnStatement(this);
     }
 

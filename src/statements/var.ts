@@ -12,7 +12,7 @@ export default class Var extends Statement{
         this.name = name;
         this.initializer = initializer;
     }
-    protected accept<T>(visitor: statementVisitor<T>): T {
+    accept<T>(visitor: statementVisitor<T>): T {
         return visitor.visitVariableStatement(this);
     }
 

@@ -13,7 +13,7 @@ export default class While extends Statement{
       
   }
   
-    protected accept<T>(visitor: statementVisitor<T>): T {
+    accept<T>(visitor: statementVisitor<T>): T {
         return visitor.visitWhileStatement(this);
     }
 
