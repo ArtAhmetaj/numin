@@ -4,11 +4,11 @@ import expressionVisitor from "./expression-visitor";
 
 export default class Assign extends Expression{
 
-    readonly token:Token;
+    readonly name:Token;
     readonly value:Expression
-    constructor(token:Token,value:Expression){
+    constructor(name:Token,value:Expression){
         super();
-        this.token = token;
+        this.name = name;
         this.value = value;
     }
     accept<T>(visitor: expressionVisitor<T>): T {
