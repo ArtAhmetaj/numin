@@ -12,7 +12,7 @@ export default class StatementExpression  extends Statement{
        this.expression=expression;
    }
    
-    protected accept<T>(visitor: statementVisitor<T>): T {
+    public accept<T>(visitor: statementVisitor<T>): T {
            return  visitor.visitExpressionStatement(this);
     }
 

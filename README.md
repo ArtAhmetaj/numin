@@ -1,3 +1,2 @@
-1.interpreter
-2.numin/lox.ts
-3.resolver 
+1.numin/lox.ts
+2.resolver 
