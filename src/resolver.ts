@@ -28,6 +28,7 @@ import StatementVisitor from "./statements/statement-visitor";
 import Var from "./statements/var";
 import While from "./statements/while";
 import Token from "./token";
+import Stack from "./util-classes/stack";
 
 enum ClassType {
     NONE,
@@ -42,7 +43,7 @@ enum FunctionType {
     METHOD
 }
 
-class Resolver implements ExpressionVisitor<void>, StatementVisitor<void>{
+export default class Resolver implements ExpressionVisitor<void>, StatementVisitor<void>{
     private readonly interpreter: Interpreter;
     private readonly scopes: Stack<Record<string, boolean>> = new Stack<Record<string, boolean>>();
     private currentFunction = FunctionType.NONE;

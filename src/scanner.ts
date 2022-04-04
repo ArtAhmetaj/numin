@@ -1,5 +1,5 @@
-import NuminClass from "./numin-class";
 import Token from "./token";
+import { TokenType } from "./token-type";
 
 export default class Scanner {
     private readonly source: string;
@@ -43,6 +43,7 @@ export default class Scanner {
     }
 
     private scanToken():void{
+        
         const c : string = this.advance();
         switch(c){
             case '(': this.addTokenWithoutSource(TokenType.LEFT_PAREN); break;
@@ -101,6 +102,7 @@ export default class Scanner {
 
         const text: string = this.source.substring(this.start, this.current);
 
+
         let type: TokenType = Scanner.keywords[text];
 
         if (type === null) type = TokenType.IDENTIFIER;
@@ -109,7 +111,7 @@ export default class Scanner {
     }
 
     private number(): void {
-        while (!this.isDigit(this.peek())) this.advance();
+        while (this.isDigit(this.peek())) this.advance();
 
         if (this.peek() === "." && this.isDigit(this.peekNext())) {
             this.advance();
@@ -124,7 +126,7 @@ export default class Scanner {
 
 
     private string(): void {
-        while (this.peek() !== "" && !this.isAtEnd()) {
+        while (this.peek() !== '"' && !this.isAtEnd()) {
             if (this.peek() === "\n") this.line++;
             this.advance();
         }

@@ -24,8 +24,9 @@ import Statement from "./statements/statement";
 import Var from "./statements/var";
 import While from "./statements/while";
 import Token from "./token";
+import { TokenType } from "./token-type";
 
-class Parser {
+export default class Parser {
     readonly tokens: Array<Token>;
     private current: number = 0;
 
@@ -34,10 +35,10 @@ class Parser {
     }
 
 
-    parse(): Array<Statement | null> {
-        let statements: Array<Statement | null> = [];
+    parse(): Array<Statement> {
+        let statements: Array<Statement> = [];
         while (!this.isAtEnd()) {
-            statements.push(this.declaration());
+            statements.push(this.declaration()!);
         }
 
         return statements;
@@ -453,11 +454,6 @@ class Parser {
     }
 
 
-
-
-
-
-
     private consume(type: TokenType, message: string): Token {
         if (this.check(type)) return this.advance();
 
@@ -483,9 +479,9 @@ class Parser {
     }
 
 
-    private check(tokenType: TokenType) {
+    private check(tokenType: TokenType) : boolean {
         if (this.isAtEnd()) return false;
-        return this.peek().type == tokenType;
+        return this.peek().type === tokenType;
     }
 
 

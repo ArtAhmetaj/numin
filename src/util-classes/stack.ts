@@ -1,4 +1,4 @@
-class Stack<T> implements IStack<T> {
+export default class Stack<T> implements IStack<T> {
     private storage: T[] = [];
 
     constructor(private capacity: number = Infinity) { }

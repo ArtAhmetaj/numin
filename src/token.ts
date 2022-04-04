@@ -1,3 +1,5 @@
+import { TokenType } from "./token-type";
+
 class Token {
 
 

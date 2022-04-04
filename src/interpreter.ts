@@ -33,6 +33,7 @@ import While from "./statements/while";
 import Token from "./token";
 import TypedRecord from "./util-classes/typed-record";
 import NuminInstance from "./numin-instance";
+import { TokenType } from "./token-type";
 
 export default class Interpreter implements ExpressionVisitor<any>, StatementVisitor<any>{
 
