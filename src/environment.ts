@@ -18,7 +18,7 @@ export default class Environment {
             return this.values[name.lexeme];
         }
 
-        if (this.enclosing !== null) return this.enclosing?.get(name);
+        if (this.enclosing) return this.enclosing?.get(name);
 
         throw new RuntimeError(name,
             `Variable with name ${name.lexeme} not defined.`);

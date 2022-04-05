@@ -31,13 +31,13 @@ export default class NuminClass implements NuminCallable{
 
     arity(): number {
         const initializer : NuminFunction = this.methods['init'];
-        if(initializer === null) return 0;
+        if(!initializer) return 0;
         return initializer.arity();
     }
     call(interpreter: interpreter, argumentValues: any[]) {
         const instance = new NuminInstance(this);
         const initializer = this.methods['init'];
-        if(initializer !==null){
+        if(initializer){
             initializer.bind(instance).call(interpreter,argumentValues);
         }
     }

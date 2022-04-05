@@ -33,22 +33,22 @@ function run(source: string): void {
     if (hadError) return;
     const resolver = new Resolver(interpreter);
     resolver.resolve(statements);
-    if(hadError) return;
+    if (hadError) return;
     interpreter.interpret(statements);
 
 }
 
-export function error(line:number,message:string):void{
-    report(line,"",message);
-    
+export function error(line: number, message: string): void {
+    report(line, "", message);
+
 }
 
-function report(line:number,where:string,message:string){
+function report(line: number, where: string, message: string) {
     console.log(`[line${line}] Error ${where}: ${message}`);
     hadError = true;
 }
 
-function errorToken(token:Token,message:string){
+function errorToken(token: Token, message: string) {
     if (token.type == TokenType.EOF) {
         report(token.line, " at end", message);
     } else {
@@ -57,21 +57,21 @@ function errorToken(token:Token,message:string){
 }
 
 
-function runtimeError(error:RuntimeError){
-    console.error(error.message +"\n[line " + error.token.line +"]");
+function runtimeError(error: RuntimeError) {
+    console.error(error.message + "\n[line " + error.token.line + "]");
 
 }
 
-const args : Array<string> = process.argv.slice(2);
+const args: Array<string> = process.argv.slice(2);
 
 
-if(args.length > 1){
+if (args.length > 1) {
     //TODO: make a help command
     console.log("Used incorrectly");
 
 }
-else if(args.length ===1){
- runFile(args[0]);   
+else if (args.length === 1) {
+    runFile(args[0]);
 }
 
 

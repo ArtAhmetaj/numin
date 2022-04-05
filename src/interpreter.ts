@@ -53,8 +53,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
             }
         }
         catch (e) {
-
-            //Numin.runtimeError(error);
+            console.log(e);
         }
     }
 
@@ -120,7 +119,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
 
         const klass: NuminClass = new NuminClass(clazz.name.lexeme, superClass, methods);
 
-        if (superClass !== null) {
+        if (superClass) {
             this.environment = this.environment.enclosing!;
         }
 
@@ -158,13 +157,13 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
     }
     visitReturnStatement(returnStatement: ReturnStatement) {
         let value: any = null;
-        if (returnStatement.value !== null) value = this.evaluate(returnStatement.value);
+        if (returnStatement.value) value = this.evaluate(returnStatement.value);
         throw new Return(value);
     }
 
     visitVariableStatement(variable: Var) {
         let value: any = null;
-        if (variable.initializer !== null) {
+        if (variable.initializer) {
             value = this.evaluate(variable.initializer);
         }
         this.environment.define(variable.name.lexeme, value);
@@ -182,7 +181,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
     visitAssignExpression(expr: assign) {
         let value: any = this.evaluate(expr.value);
         let distance: number = this.locals.get(expr);
-        if (distance !== null) {
+        if (distance) {
             this.environment.assignAt(distance, expr.name, value);
 
         } else {
@@ -218,7 +217,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
                 return left - right;
             case TokenType.PLUS:
                 if (typeof (left) === "number" && typeof (right) === "number") {
-                    return left / right;
+                    return +left + +right;
                 }
 
                 if (typeof (left) === "string" && typeof (right) === "string") {
@@ -328,13 +327,13 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
 
 
     visitVariableExpression(variableExpression: variable) {
-    return this.lookUpVariable(variableExpression.name,variableExpression);
+        return this.lookUpVariable(variableExpression.name, variableExpression);
     }
 
 
     private lookUpVariable(name: Token, expr: Expression): any {
         const distance: number = this.locals.get(expr);
-        if (distance !== null) {
+        if (distance) {
             return this.environment.getAt(distance, name.lexeme);
         }
         else {
@@ -358,7 +357,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
     }
 
     private isTruthy(object: any): boolean {
-        if (object === null) return false;
+        if (!object) return false;
         if (object instanceof Boolean) return object as boolean;
         return true;
     }
@@ -371,15 +370,15 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
 
 
     private isEqual(a: any, b: any) {
-        if (a === null && b === null) return true;
-        if (a === null) return false;
+        if (!a && !b) return true;
+        if (!a) return false;
 
         //TODO: could be a===b
         return this.isEqualObj(a, b);
     }
 
     private stringify(object: any) {
-        if (object === null) return "nil";
+        if (!object) return "nil";
         if (object instanceof Number) {
             let text: string = object.toString();
             if (text.endsWith(".0")) {

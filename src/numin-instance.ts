@@ -19,7 +19,7 @@ export default class NuminInstance {
     
 
         const method = this.clazz.findMethod(this,name.lexeme);
-        if(method!==null) return method;
+        if(method) return method;
 
         throw new RuntimeError(name,`Undefined property: ${name.lexeme}`);
     }

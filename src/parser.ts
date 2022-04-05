@@ -41,6 +41,7 @@ export default class Parser {
             statements.push(this.declaration()!);
         }
 
+
         return statements;
     }
 
@@ -139,14 +140,14 @@ export default class Parser {
 
         let body: Statement = this.statement();
 
-        if (increment !== null) {
+        if (increment) {
             body = new Block([body, new StatementExpression(increment)])
         }
 
-        if (condition === null) condition = new Literal(true);
+        if (!condition) condition = new Literal(true);
         body = new While(condition, body);
 
-        if (initializer !== null) {
+        if (initializer) {
             body = new Block([initializer, body]);
         }
 

@@ -105,7 +105,7 @@ export default class Scanner {
 
         let type: TokenType = Scanner.keywords[text];
 
-        if (type === null) type = TokenType.IDENTIFIER;
+        if (!type) type = TokenType.IDENTIFIER;
 
         this.addTokenWithoutSource(type);
     }
