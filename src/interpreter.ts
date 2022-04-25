@@ -59,6 +59,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
 
 
     private execute(statement: Statement) {
+        console.log(statement);
         statement.accept(this);
     }
 
@@ -105,12 +106,9 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
                 throw new RuntimeError(clazz.name, "Superclass must be a class.");
 
             }
-
             this.environment = new Environment(this.environment);
             this.environment.define("super", superClass);
-
         }
-
         const methods: Record<string, NuminFunction> = {};
         for (const method of clazz.methods) {
             const numinFunction: NuminFunction = new NuminFunction(method, this.environment, method.name.lexeme === "init");
@@ -217,7 +215,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
                 return left - right;
             case TokenType.PLUS:
                 if (typeof (left) === "number" && typeof (right) === "number") {
-                    return +left + +right;
+                   return left + right;
                 }
 
                 if (typeof (left) === "string" && typeof (right) === "string") {
@@ -230,7 +228,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
                 return left / right;
             case TokenType.STAR:
                 this.checkNumberOperands(expr.operator, left, right);
-                return left / right;
+                return left * right;
 
         }
         return null;
@@ -279,6 +277,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
 
         return literalExpression.value;
     }
+    
     visitlogicalExpression(logicalExpression: logical) {
         const left: any = this.evaluate(logicalExpression.left);
         if (logicalExpression.operator.type === TokenType.OR) {

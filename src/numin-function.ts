@@ -1,5 +1,6 @@
 import Environment from "./environment";
 import Return from "./errors/return";
+import Interpreter from "./interpreter";
 import NuminCallable from "./numin-callable";
 import NuminInstance from "./numin-instance";
 import Function from "./statements/function";
@@ -31,7 +32,7 @@ export default class NuminFunction implements NuminCallable {
     arity(): number {
         return this.declaration.parameters.length;
     }
-    call(interpreter: any, argumentValues: any[]) {
+    call(interpreter: Interpreter, argumentValues: any[]) {
         const environment: Environment = new Environment(this.closure);
         for (let i = 0; i < this.declaration.parameters.length; i++) {
             environment.define(this.declaration.parameters[i].lexeme, argumentValues[i]);

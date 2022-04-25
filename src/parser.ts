@@ -85,17 +85,17 @@ export default class Parser {
         return this.expressionStatement();
     }
 
-    private returnStatement() : Statement{
-        const keyword : Token = this.previous();
-        let value : Expression | null = null;
+    private returnStatement(): Statement {
+        const keyword: Token = this.previous();
+        let value: Expression | null = null;
 
-        if(!this.check(TokenType.SEMICOLON)){
+        if (!this.check(TokenType.SEMICOLON)) {
             value = this.expression();
         }
 
-        this.consume(TokenType.SEMICOLON,"Expect ';' after return value.");
+        this.consume(TokenType.SEMICOLON, "Expect ';' after return value.");
 
-        return new ReturnStatement(keyword,value!);
+        return new ReturnStatement(keyword, value!);
 
     }
 
@@ -106,9 +106,9 @@ export default class Parser {
     }
 
 
-    private expressionStatement():Statement{
-        let expr  : Expression = this.expression();
-        this.consume(TokenType.SEMICOLON,"Expect ';' after expression.");
+    private expressionStatement(): Statement {
+        let expr: Expression = this.expression();
+        this.consume(TokenType.SEMICOLON, "Expect ';' after expression.");
         return new StatementExpression(expr);
     }
 
@@ -292,7 +292,8 @@ export default class Parser {
                 expr = this.finishCall(expr);
             }
             else if (this.match(TokenType.DOT)) {
-                const name: Token = this.consume(TokenType.IDENTIFIER, "Expect property name after '.'.");
+                const name: Token = this.consume(TokenType.IDENTIFIER,
+                     "Expect property name after '.'.");
                 expr = new Get(expr, name);
 
             } else {
@@ -480,7 +481,7 @@ export default class Parser {
     }
 
 
-    private check(tokenType: TokenType) : boolean {
+    private check(tokenType: TokenType): boolean {
         if (this.isAtEnd()) return false;
         return this.peek().type === tokenType;
     }

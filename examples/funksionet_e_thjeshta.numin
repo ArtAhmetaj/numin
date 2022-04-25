@@ -1,0 +1,8 @@
+fun addNumbers(first,second){
+    return first+second;
+}
+
+var first = 3;
+var second = 10;
+
+print addNumbers(3,10);
