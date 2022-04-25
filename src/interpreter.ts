@@ -59,7 +59,6 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
 
 
     private execute(statement: Statement) {
-        console.log(statement);
         statement.accept(this);
     }
 

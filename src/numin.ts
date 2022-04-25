@@ -28,10 +28,8 @@ function runPrompt(): void {
 function run(source: string): void {
     const scanner = new Scanner(source);
     const tokens = scanner.scanTokens();
-    console.log(tokens);
     const parser = new Parser(tokens);
     const statements = parser.parse();
-    console.log(statements);
     if (hadError) return;
     const resolver = new Resolver(interpreter);
     resolver.resolve(statements);
