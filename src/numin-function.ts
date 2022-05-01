@@ -36,17 +36,22 @@ export default class NuminFunction implements NuminCallable {
         const environment: Environment = new Environment(this.closure);
         for (let i = 0; i < this.declaration.parameters.length; i++) {
             environment.define(this.declaration.parameters[i].lexeme, argumentValues[i]);
+        }
             try {
                 interpreter.executeBlock(this.declaration.body, environment);
             }
             catch (returnValue: any) {
-                const returnError = returnValue as Return;
-                return returnError.value;
+                if(returnValue instanceof Return){
+                    if (this.isInitializer) return this.closure.getAt(0, "ThisExpr")
+                    return returnValue.value;
+                }
+                else{
+                    throw returnValue;
+                }
             }
-
+          
             if(this.isInitializer) return this.closure.getAt(0,"this");
             return null;
-        }
 
     }
 

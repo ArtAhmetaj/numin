@@ -18,7 +18,7 @@ export default class NuminClass implements NuminCallable{
 
 
     findMethod(instance:NuminInstance,name:string):NuminFunction | null{
-        if(this.methods[name]!==undefined){
+        if(this.methods[name]){
             return this.methods[name].bind(instance);
         }
 

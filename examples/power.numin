@@ -1,0 +1,20 @@
+fun fibbonacci(nthNumber) {
+         previouspreviousNumber=0; 
+         previousNumber = 0;
+         currentNumber = 1;
+
+        for (i = 1; i < nthNumber; i++) {
+
+            previouspreviousNumber = previousNumber;
+
+            previousNumber = currentNumber;
+
+            currentNumber = previouspreviousNumber + previousNumber;
+
+        }
+        return currentNumber;
+}
+
+var n = 2;
+
+print fibbonacci(2);

@@ -31,7 +31,6 @@ import StatementVisitor from "./statements/statement-visitor";
 import Var from "./statements/var";
 import While from "./statements/while";
 import Token from "./token";
-import TypedRecord from "./util-classes/typed-record";
 import NuminInstance from "./numin-instance";
 import { TokenType } from "./token-type";
 
@@ -40,7 +39,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
     readonly globals: Environment = Environment.fromRoot();
 
     private environment: Environment = this.globals;
-    private locals: TypedRecord<Expression, number> = new TypedRecord();
+    private locals: Map<Expression, number> = new Map();
 
     constructor() {
         this.globals.define("clock", clock);
@@ -64,7 +63,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
 
 
     resolve(expr: Expression, depth: number) {
-        this.locals.put(expr, depth);
+        this.locals.set(expr, depth);
     }
 
     executeBlock(statements: Array<Statement>, environment: Environment) {
@@ -177,13 +176,13 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
 
     visitAssignExpression(expr: assign) {
         let value: any = this.evaluate(expr.value);
-        let distance: number = this.locals.get(expr);
+        let distance: number = this.locals.get(expr)!;
         if (distance) {
             this.environment.assignAt(distance, expr.name, value);
 
         } else {
             this.globals.assign(expr.name, value);
-        }
+        }    
 
         return value;
     }
@@ -297,7 +296,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
         }
     }
     visitSuperExpression(superExpression: _super) {
-        let distance = this.locals.get(superExpression);
+        let distance = this.locals.get(superExpression)!;
         const superClass: NuminClass = this.environment.getAt(distance, 'super');
         const object: NuminInstance = this.environment.getAt(distance - 1, "this");
         const method = superClass.findMethod(object, superExpression.method.lexeme);
@@ -330,7 +329,7 @@ export default class Interpreter implements ExpressionVisitor<any>, StatementVis
 
 
     private lookUpVariable(name: Token, expr: Expression): any {
-        const distance: number = this.locals.get(expr);
+        const distance: number = this.locals.get(expr)!;
         if (distance) {
             return this.environment.getAt(distance, name.lexeme);
         }

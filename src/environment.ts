@@ -3,7 +3,7 @@ import Token from "./token";
 
 export default class Environment {
     readonly enclosing: Environment | null
-    private readonly values: Record<string, any> = {}
+    readonly values: Record<string, any> = {}
 
     static fromRoot() {
         return new this(null);
@@ -17,7 +17,6 @@ export default class Environment {
         if (this.values[name.lexeme]) {
             return this.values[name.lexeme];
         }
-
         if (this.enclosing) return this.enclosing?.get(name);
 
         throw new RuntimeError(name,
